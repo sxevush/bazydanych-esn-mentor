@@ -1,0 +1,35 @@
+<!--{% extends 'base.html' %}-->
+
+<!--{% block content %}-->
+<!--<h1>Edytuj kwestionariusz</h1>-->
+<!--<form method="post">-->
+<!--  {% csrf_token %}-->
+<!--  {% for question in questionnaire.questions.all %}-->
+<!--    <div>-->
+<!--      <label>{{ question.text }}</label>-->
+<!--      <input type="text" name="answer_{{ question.id }}" value="{{ questionnaire.answers.get(question.id) }}">-->
+<!--    </div>-->
+<!--  {% endfor %}-->
+<!--  <button type="submit">Zapisz</button>-->
+<!--</form>-->
+<!--{% endblock %}-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Edytuj kwestionariusz</h1>
+<form method="post">
+  {% csrf_token %}
+  {% for question in questionnaire.questions.all %}
+    <div>
+      <label>{{ question.text }}</label>
+      <select name="answer_{{ question.id }}">
+        {% for choice in question.choices %}
+          <option value="{{ choice }}" {% if questionnaire.answers.get(question.id) == choice %}selected{% endif %}>{{ choice }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  {% endfor %}
+  <button type="submit">Zapisz</button>
+</form>
+{% endblock %}

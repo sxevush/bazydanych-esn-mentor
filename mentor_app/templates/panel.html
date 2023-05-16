@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Witaj {{ user.first_name }}!</h2>
+  <p>Oto Twój panel użytkownika. Możesz tutaj zobaczyć swoje dane i zarządzać nimi.</p>
+
+  <h3>Dane profilowe:</h3>
+  <p>Imię: {{ user.first_name }}</p>
+  <p>Nazwisko: {{ user.last_name }}</p>
+  <p>Email: {{ user.email }}</p>
+
+  <a href="{% url 'edit_profile' %}">Edytuj profil</a>
+{% endblock %}

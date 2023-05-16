@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4">Witaj w aplikacji Mentor!</h1>
+    <p>Za pomocą tej aplikacji możesz znaleźć mentora, który pomoże Ci rozwijać swoje umiejętności w wybranej dziedzinie. Jeśli jesteś mentorem, możesz również oferować swoje usługi innym użytkownikom.</p>
+    <hr>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h3 class="mb-3">Jesteś nowy?</h3>
+            <p>Zarejestruj się, aby dołączyć do społeczności mentorów i uczniów.</p>
+            <a href="{% url 'register' %}" class="btn btn-primary">Zarejestruj się</a>
+        </div>
+        <div class="col-md-6">
+            <h3 class="mb-3">Masz już konto?</h3>
+            <p>Zaloguj się, aby skorzystać z pełnych funkcjonalności aplikacji.</p>
+            <a href="{% url 'login' %}" class="btn btn-primary">Zaloguj się</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

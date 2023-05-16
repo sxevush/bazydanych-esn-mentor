@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'home' %}">Ekran startowy</a>
+        <a href="{% url 'register' %}">Rejestracja</a>
+        <a href="{% url 'login' %}">Logowanie</a>
+        <a href="{% url 'panel' %}">Panel użytkownika</a>
+        <a href="{% url 'edit_profile' %}">Edytuj profil</a>
+<!--        <a href="{% url 'fill_questionnaire' %}">Wypełnij formularz</a>-->
+        {% if request.user.account_type == 'student' %}
+            <a href="{% url 'form_erasmo' %}">Uzupełnij FORMS erasmo</a>
+        {% endif %}
+        {% if request.user.account_type == 'mentor' %}
+            <a href="{% url 'form_mentor' %}">Uzupełnij FORMS mentor</a>
+        {% endif %}
+        {% if request.user.account_type == 'admin' %}
+            <a href="{% url 'admin_panel' %}">Admin Panel</a>
+        {% endif %}
+    </nav>
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
