@@ -86,11 +86,12 @@ CRISPY_TEMPLATE_PACK = 'bootstrap'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'esn_mentor_db',
+        'NAME': 'mentor',
         'HOST': 'localhost',
         'PORT': 27017,
         'USER': 'ksawery.ostrowski03@gmail.com',
         'PASSWORD': 'admin',
+        'ENFORCE_SCHEMA': False,
     }
 }
 
