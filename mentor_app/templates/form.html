@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user_response and user_response.is_completed %}
+        <p>Formularz został już wypełniony.</p>
+    {% else %}
+        <form method="post" action="{% url 'form' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+    <input type="submit" value="Wyślij">
+</form>
+{% endif %}
+{% endblock %}
+
+
+
+

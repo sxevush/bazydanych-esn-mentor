@@ -85,13 +85,12 @@ CRISPY_TEMPLATE_PACK = 'bootstrap'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'mentor',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mentor-db',
         'HOST': 'localhost',
-        'PORT': 27017,
-        'USER': 'ksawery.ostrowski03@gmail.com',
-        'PASSWORD': 'admin',
-        'ENFORCE_SCHEMA': False,
+        'PORT': 5432,
+        'USER': 'django',
+        'PASSWORD': 'django',
     }
 }
 

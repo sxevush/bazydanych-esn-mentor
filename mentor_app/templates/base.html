@@ -10,12 +10,11 @@
         <a href="{% url 'login' %}">Logowanie</a>
         <a href="{% url 'panel' %}">Panel użytkownika</a>
         <a href="{% url 'edit_profile' %}">Edytuj profil</a>
-<!--        <a href="{% url 'fill_questionnaire' %}">Wypełnij formularz</a>-->
         {% if request.user.account_type == 'student' %}
-            <a href="{% url 'form_erasmo' %}">Uzupełnij FORMS erasmo</a>
+            <a href="{% url 'form' %}">Uzupełnij FORMS erasmo</a>
         {% endif %}
         {% if request.user.account_type == 'mentor' %}
-            <a href="{% url 'form_mentor' %}">Uzupełnij FORMS mentor</a>
+            <a href="{% url 'form' %}">Uzupełnij FORMS mentor</a>
         {% endif %}
         {% if request.user.account_type == 'admin' %}
             <a href="{% url 'admin_panel' %}">Admin Panel</a>

@@ -1,15 +1,12 @@
 import numpy as np
 from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
 
-from .forms import RegistrationForm, LoginForm, ProfileForm, QuestionnaireForm, TenQuestionFormModelFormErasmo, \
-    TenQuestionFormModelFormMentor
-from .models import Profile, Questionnaire, TenQuestionFormErasmo, TenQuestionFormMentor
+from .forms import RegistrationForm, LoginForm, ProfileForm, FormAnswersForm
+from .models import FormAnswers, Answer
 
 
 def home(request):
@@ -56,44 +53,18 @@ def edit_profile(request):
     if not request.user.is_authenticated:
         return redirect('login')
 
-    try:
-        profile = request.user.profile
-    except ObjectDoesNotExist:
-        profile = Profile()
-        profile.save()
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            request.user.first_name = form.cleaned_data['first_name']
+            request.user.last_name = form.cleaned_data['last_name']
+            request.user.username = form.cleaned_data['username']
+            request.user.save()
             return redirect('panel')
     else:
-        form = ProfileForm(instance=profile)
+        form = ProfileForm()
 
     return render(request, 'edit_profile.html', {'form': form})
-
-
-def fill_questionnaire(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-
-    questionnaire_submitted = False
-    if request.method == 'POST':
-        form = QuestionnaireForm(request.POST)
-        if form.is_valid():
-            questionnaire = form.save(commit=False)
-            user = request.user
-            questionnaire.answers = {
-                Questionnaire.QUESTION_1: form.cleaned_data.get('question_1'),
-                Questionnaire.QUESTION_2: form.cleaned_data.get('question_2')
-            }
-            user.questionnaire = questionnaire
-            # user.save(force_update=True)
-            questionnaire.save()
-            questionnaire_submitted = True
-    else:
-        form = QuestionnaireForm()
-    return render(request, 'fill_questionnaire.html',
-                  {'form': form, 'questionnaire_submitted': questionnaire_submitted})
 
 
 def admin_panel(request):
@@ -130,7 +101,7 @@ def show_results(request):
     # utwórz listę wyników
     result_list = []
 
-    for results in (TenQuestionFormErasmo.objects.all(), TenQuestionFormModelFormMentor.objects.all()):
+    for results in (FormAnswers.objects.all()):
         for result in results:
             # dodaj wynik do listy jako krotkę
             result_tuple = (result.user_id, result.question1, result.question2, result.question3, result.question4,
@@ -145,38 +116,6 @@ def show_results(request):
     return render(request, 'admin_panel.html', {'results': result_array})
 
 
-# def match_mentors():
-#     students = Questionnaire.objects.filter(user__account_type='student')
-#     mentors = Questionnaire.objects.filter(user__account_type='mentor')
-#
-#     matches = []
-#
-#     for student in students:
-#         min_difference = float('inf')
-#         best_mentor = None
-#
-#         for mentor in mentors:
-#             total_difference = sum([abs(student.answers[key] - mentor.answers[key]) for key in student.answers])
-#
-#             if total_difference < min_difference:
-#                 min_difference = total_difference
-#                 best_mentor = mentor
-#
-#         matches.append((student, best_mentor))
-#
-#     return matches
-
-
-@login_required
-def edit_questionnaire(request):
-    questionnaire, created = Questionnaire.objects.get_or_create(user=request.user)
-    if request.method == 'POST':
-        questionnaire.answers = request.POST
-        questionnaire.save()
-        return redirect('home')
-    return render(request, 'edit_questionnaire.html', {'questionnaire': questionnaire})
-
-
 # def my_view(request):
 #     form = MyForm()
 #     if request.method == 'POST':
@@ -187,59 +126,21 @@ def edit_questionnaire(request):
 #     return render(request, 'my_template.html', {'form': form})
 
 
-def form_view_erasmo(request):
+def form_view(request):
     try:
-        form_result = TenQuestionFormErasmo.objects.get(user_id=request.user.id)
+        form_result = FormAnswers.objects.get(user=request.user)
         return redirect('already_filled')
-    except TenQuestionFormErasmo.DoesNotExist:
+    except FormAnswers.DoesNotExist:
         pass
 
     if request.method == 'POST':
-        form = TenQuestionFormModelFormErasmo(request.POST)
+        form = FormAnswersForm(request.POST)
         if form.is_valid():
-            result = form.save(commit=False)
-            result.user_id = request.user.id
-            result.save()
+            form.save(request.user)
             return redirect('success')
     else:
-        form = TenQuestionFormModelFormErasmo()
-    return render(request, 'form_erasmo.html', {'form': form})
-
-
-# def form_view_mentor(request):
-#     return render(request, 'form_mentor.html')
-
-# def form_view_mentor(request):
-#     if request.method == 'POST':
-#         form = TenQuestionFormModelForm(request.POST)
-#         if form.is_valid():
-#             data = form.cleaned_data
-#             result = FormResult(user_id=request.user.id, question1=data['question1'], question2=data['question2'],
-#                                 question3=data['question3'], question4=data['question4'], question5=data['question5'],
-#                                 question6=data['question6'], question7=data['question7'],
-#                                 question8=data['question8'], question9=data['question9'], question10=data['question10'])
-#             result.save()
-#             return redirect('success')
-#     else:
-#         form = TenQuestionFormModelForm()
-#     return render(request, 'form_mentor.html', {'form': form})
-def form_view_mentor(request):
-    try:
-        form_result = TenQuestionFormMentor.objects.get(user_id=request.user.id)
-        return redirect('already_filled')
-    except TenQuestionFormMentor.DoesNotExist:
-        pass
-
-    if request.method == 'POST':
-        form = TenQuestionFormModelFormMentor(request.POST)
-        if form.is_valid():
-            result = form.save(commit=False)
-            result.user_id = request.user.id
-            result.save()
-            return redirect('success')
-    else:
-        form = TenQuestionFormModelFormMentor()
-    return render(request, 'form_mentor.html', {'form': form})
+        form = FormAnswersForm()
+    return render(request, 'form.html', {'form': form})
 
 
 def success(request):
@@ -248,27 +149,3 @@ def success(request):
 
 def already_filled(request):
     return render(request, 'already_filled.html')
-
-# wyswietlanie danych z bazy
-# def ten_question_form_list(request):
-#     client = MongoClient('localhost', 27017)
-#     db = client['esn_mentor_db']
-#     collection = db['ten_question_form']
-#     forms = []
-#     for form_data in collection.find():
-#         form = TenQuestionForm(
-#             user_id=form_data['user_id'],
-#             question1=form_data['question1'],
-#             question2=form_data['question2'],
-#             question3=form_data['question3'],
-#             question4=form_data['question4'],
-#             question5=form_data['question5'],
-#             question6=form_data['question6'],
-#             question7=form_data['question7'],
-#             question8=form_data['question8'],
-#             question9=form_data['question9'],
-#             question10=form_data['question10'],
-#             created_at=form_data['created_at'],
-#         )
-#         forms.append(form)
-#     return render(request, 'ten_question_forms.html', {'forms': forms})
