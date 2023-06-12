@@ -1,10 +1,11 @@
 from django.contrib import admin
-from .models import User, FormAnswers, Answer, Questions
+from .models import User, FormAnswer, Answer, Question, MentoringChoice
 
 admin.site.register(User)
-admin.site.register(FormAnswers)
+admin.site.register(FormAnswer)
 admin.site.register(Answer)
-admin.site.register(Questions)
+admin.site.register(Question)
+admin.site.register(MentoringChoice)
 
 
 # class ContactAdminMentor(admin.ModelAdmin):

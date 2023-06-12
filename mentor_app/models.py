@@ -18,8 +18,14 @@ class CustomUserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
-    account_type = models.CharField(max_length=20,
-                                    choices=[('student', 'Student'), ('mentor', 'Mentor'), ('admin', 'Administrator')])
+    ACCOUNT_TYPES = (
+        ('student', 'Student'),
+        ('mentor', 'Mentor'),
+        ('admin', 'Administrator')
+    )
+    account_type = models.CharField(max_length=20, choices=ACCOUNT_TYPES)
+
+    mentorships_left = models.IntegerField(default=0)
 
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -35,19 +41,32 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
 
-class FormAnswers(models.Model):
+class FormAnswer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class Questions(models.Model):
+class Question(models.Model):
     question = models.CharField(max_length=255)
+    USER_CHOICES = (
+        ('student', 'Student'),
+        ('mentor', 'Mentor'),
+    )
+    user_group = models.CharField(max_length=10, choices=USER_CHOICES, default='student')
 
 
 class Answer(models.Model):
     question = models.CharField(max_length=255)
     answer = models.IntegerField()
-    form = models.ForeignKey(FormAnswers, on_delete=models.CASCADE)
+    form = models.ForeignKey(FormAnswer, on_delete=models.CASCADE)
 
 
-
+class MentoringChoice(models.Model):
+    mentor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mentor')
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='student')
+    POSSIBLE_STATUS = (
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+        ('pending', 'Pending'),
+    )
+    status = models.CharField(max_length=10, choices=POSSIBLE_STATUS, default='pending')

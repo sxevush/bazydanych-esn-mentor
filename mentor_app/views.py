@@ -4,15 +4,17 @@ from django.db import connection
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_protect
 
-from .forms import RegistrationForm, LoginForm, ProfileForm, FormAnswersForm
-from .models import FormAnswers, Answer
+from .forms import RegistrationForm, LoginForm, ProfileForm, FormAnswersForm, MentorSelectionForm
+from .models import FormAnswer, Answer, MentoringChoice
 
 
 def home(request):
     return render(request, 'home.html')
 
 
+@csrf_protect
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -24,7 +26,7 @@ def register(request):
         form = RegistrationForm()
     return render(request, 'register.html', {'form': form})
 
-
+@csrf_protect
 def log_in(request):
     if request.method == 'POST':
         form = LoginForm(data=request.POST)
@@ -48,27 +50,20 @@ def panel(request):
     return render(request, 'panel.html')
 
 
-# TODO poprawić edit_profile, żeby miało jakiś sens
+@csrf_protect
 def edit_profile(request):
     if not request.user.is_authenticated:
         return redirect('login')
 
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES)
+        form = ProfileForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
-            request.user.first_name = form.cleaned_data['first_name']
-            request.user.last_name = form.cleaned_data['last_name']
-            request.user.username = form.cleaned_data['username']
-            request.user.save()
+            form.save()
             return redirect('panel')
     else:
-        form = ProfileForm()
+        form = ProfileForm(instance=request.user)
 
     return render(request, 'edit_profile.html', {'form': form})
-
-
-def admin_panel(request):
-    return render(request, 'admin_panel.html')
 
 
 def export_data():
@@ -97,50 +92,43 @@ def export_data():
     return response
 
 
-def show_results(request):
-    # utwórz listę wyników
-    result_list = []
-
-    for results in (FormAnswers.objects.all()):
-        for result in results:
-            # dodaj wynik do listy jako krotkę
-            result_tuple = (result.user_id, result.question1, result.question2, result.question3, result.question4,
-                            result.question5, result.question6, result.question7, result.question8, result.question9,
-                            result.question10)
-            result_list.append(result_tuple)
-
-    # utwórz tablicę NumPy z listy wyników
-    result_array = np.array(result_list)
-
-    # przekaż tablicę NumPy do szablonu HTML
-    return render(request, 'admin_panel.html', {'results': result_array})
-
-
-# def my_view(request):
-#     form = MyForm()
-#     if request.method == 'POST':
-#         form = MyForm(request.POST)
-#         if form.is_valid():
-#             # zrób coś z danymi z formularza
-#             pass
-#     return render(request, 'my_template.html', {'form': form})
-
-
 def form_view(request):
     try:
-        form_result = FormAnswers.objects.get(user=request.user)
+        form_result = FormAnswer.objects.get(user=request.user)
         return redirect('already_filled')
-    except FormAnswers.DoesNotExist:
+    except FormAnswer.DoesNotExist:
         pass
 
     if request.method == 'POST':
-        form = FormAnswersForm(request.POST)
+        form = FormAnswersForm(request.POST, user=request.user)
         if form.is_valid():
             form.save(request.user)
             return redirect('success')
     else:
-        form = FormAnswersForm()
+        form = FormAnswersForm(user=request.user)  # Pass user to the form
     return render(request, 'form.html', {'form': form})
+
+
+def mentor_selection_view(request):
+    if request.user.is_authenticated and request.user.account_type == 'student':
+        try:
+            MentoringChoice.objects.get(student=request.user, status='accepted')
+            # TODO
+            #  view do pokazywania mentora
+            return redirect('panel')
+        except MentoringChoice.DoesNotExist:
+            pass
+
+        if request.method == 'POST':
+            form = MentorSelectionForm(request.POST, current_user=request.user)
+            if form.is_valid():
+                form.save(request.user)
+                return redirect('success')
+        else:
+            form = MentorSelectionForm(current_user=request.user)
+        return render(request, 'mentor_select.html', {'form': form})
+    else:
+        return redirect('panel')
 
 
 def success(request):
