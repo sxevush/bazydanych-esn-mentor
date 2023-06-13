@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Profil użytkownika</h1>
+<p>Imię: {{ user.first_name }} {{ user.last_name }}</p>
+<p>Rola: {{ user.account_type }}</p>
+<p>Username: {{ user.username }}</p>
+<p>Email: {{ user.email }}</p>
+{% if answers is not None %}
+    <p>Odpowiedzi na ankietę:</p>
+    <ul>
+        {% for answer in answers %}
+            <li>{{ answer.question }} - {{ answer.answer }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Użytkownik nie wypełnił ankiety.</p>
+{% endif %}
+{% endblock %}

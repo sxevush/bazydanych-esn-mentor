@@ -12,11 +12,15 @@
         <a href="{% url 'edit_profile' %}">Edytuj profil</a>
         {% if request.user.account_type == 'student' %}
             <a href="{% url 'form' %}">Uzupełnij FORMS erasmo</a>
-            <a href="{% url 'user_select' %}">Wybierz mentora</a>
+            <a href="{% url 'mentor_select' %}">Wybierz mentora</a>
         {% endif %}
         {% if request.user.account_type == 'mentor' %}
             <a href="{% url 'form' %}">Uzupełnij FORMS mentor</a>
-            <a href="{% url 'user_select' %}">Zaakceptuj studenta</a>
+            <a href="{% url 'accept_students' %}">Zaakceptuj prośby o mentora</a>
+            <a href="{% url 'mentorships_left' %}">Wybierz liczbę studentów</a>
+        {% endif %}
+        {% if request.user.account_type == 'admin' %}
+            <a href="{% url 'add_question' %}">Dodaj pytanie</a>
         {% endif %}
     </nav>
     <div>

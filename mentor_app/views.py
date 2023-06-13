@@ -6,8 +6,9 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_protect
 
-from .forms import RegistrationForm, LoginForm, ProfileForm, FormAnswersForm, MentorSelectionForm
-from .models import FormAnswer, Answer, MentoringChoice
+from .forms import RegistrationForm, LoginForm, ProfileForm, FormAnswersForm, MentorSelectionForm, MentorshipsLeftForm, \
+    NewQuestionForm, AcceptStudentsForm
+from .models import FormAnswer, User, MentoringChoice, Answer
 
 
 def home(request):
@@ -92,6 +93,16 @@ def export_data():
     return response
 
 
+def profile_view(request, id):
+    user = User.objects.get(pk=id)
+    try:
+        form = FormAnswer.objects.get(user=user)
+        answers = Answer.objects.filter(form=form)
+    except FormAnswer.DoesNotExist:
+        answers = None
+    return render(request, 'profile.html', {'user': user, 'answers': answers})
+
+
 def form_view(request):
     try:
         form_result = FormAnswer.objects.get(user=request.user)
@@ -109,24 +120,65 @@ def form_view(request):
     return render(request, 'form.html', {'form': form})
 
 
+def add_question_view(request):
+    if request.method == 'POST':
+        form = NewQuestionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('panel')
+    else:
+        form = NewQuestionForm()
+
+    return render(request, 'add_question.html', {'form': form})
+
+
 def mentor_selection_view(request):
     if request.user.is_authenticated and request.user.account_type == 'student':
         try:
-            MentoringChoice.objects.get(student=request.user, status='accepted')
-            # TODO
-            #  view do pokazywania mentora
-            return redirect('panel')
+            mentor = MentoringChoice.objects.get(student=request.user, status='accepted')
+            return redirect(f'profile/{ mentor.id }')
         except MentoringChoice.DoesNotExist:
             pass
 
         if request.method == 'POST':
-            form = MentorSelectionForm(request.POST, current_user=request.user)
+            form = MentorSelectionForm(request.POST, request.user)
             if form.is_valid():
                 form.save(request.user)
                 return redirect('success')
         else:
-            form = MentorSelectionForm(current_user=request.user)
+            form = MentorSelectionForm(request.user)
         return render(request, 'mentor_select.html', {'form': form})
+    else:
+        return redirect('panel')
+
+
+def accept_students_view(request):
+    if request.user.is_authenticated and request.user.account_type == 'mentor':
+        if request.method == 'POST':
+            form = AcceptStudentsForm(request.POST, user=request.user)
+            if form.is_valid():
+                form.save(request.user)
+                return redirect('success')
+        else:
+            form = AcceptStudentsForm(user=request.user)
+        return render(request, 'accept_students.html', {'form': form})
+    else:
+        return redirect('panel')
+
+
+def edit_mentorships(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    if request.user.account_type == 'mentor':
+        if request.method == 'POST':
+            form = MentorshipsLeftForm(request.POST, instance=request.user)
+            if form.is_valid():
+                form.save()
+                return redirect('panel')
+        else:
+            form = MentorshipsLeftForm(instance=request.user)
+        return render(request, 'edit_profile.html', {'form': form})
     else:
         return redirect('panel')
 

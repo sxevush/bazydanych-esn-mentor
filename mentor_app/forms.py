@@ -49,11 +49,12 @@ class FormAnswersForm(forms.Form):
 
 
 class MentorSelectionForm(forms.Form):
-    def __init__(self, current_user, *args, **kwargs):
+    def __init__(self, *args, current_user, **kwargs):
         super().__init__(*args, **kwargs)
 
         users = User.objects.exclude(mentorships_left=0)
         request_sent = MentoringChoice.objects.filter(student=current_user)
+        request_sent = [request.mentor for request in request_sent]
         users = [user for user in users if user not in request_sent]
         user_choices = ((user.id, mark_safe(self.label_from_instance(user))) for user in users)
 
@@ -72,3 +73,55 @@ class MentorSelectionForm(forms.Form):
     def label_from_instance(self, user):
         profile_url = f'/profile/{user.id}'
         return f'{user.first_name} {user.last_name}, {user.email} - <a href="{profile_url}">visit profile</a>'
+
+
+class MentorshipsLeftForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['mentorships_left']
+
+
+class NewQuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['question', 'user_group']
+
+
+class AcceptStudentsForm(forms.Form):
+    def __init__(self, *args, user, **kwargs):
+        super().__init__(*args, **kwargs)
+        CHOICES = (
+            ('accepted', 'Accept'),
+            ('rejected', 'Reject')
+        )
+        requests = MentoringChoice.objects.filter(mentor=user, status='pending')
+        for request in requests:
+            student = request.student
+            self.fields[student.username] = forms.ChoiceField(
+                choices=CHOICES,
+                label=mark_safe(
+                    f'{student.first_name} {student.last_name}, {student.email} - <a href="/profile/{student.id}">visit profile</a>'
+                )
+            )
+
+    def save(self, user):
+        for (student_username, response) in self.cleaned_data.items():
+            student = User.objects.get(username=student_username)
+            mentoring_choice = MentoringChoice.objects.get(student=student, mentor=user)
+
+            if user.mentorships_left > 0:
+                mentoring_choice.status = response
+
+                if response == 'accepted':
+                    user.mentorships_left -= 1
+                    other_mentoring_choices = MentoringChoice.objects.\
+                        filter(student=student).exclude(mentor=user)
+
+                    for other_choice in other_mentoring_choices:
+                        other_choice.status = 'rejected'
+                        other_choice.save()
+
+            else:
+                mentoring_choice.status = 'rejected'
+            mentoring_choice.save()
+        user.save()
