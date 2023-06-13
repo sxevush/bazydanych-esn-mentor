@@ -141,12 +141,12 @@ def mentor_selection_view(request):
             pass
 
         if request.method == 'POST':
-            form = MentorSelectionForm(request.POST, request.user)
+            form = MentorSelectionForm(request.POST, current_user=request.user)
             if form.is_valid():
                 form.save(request.user)
                 return redirect('success')
         else:
-            form = MentorSelectionForm(request.user)
+            form = MentorSelectionForm(current_user=request.user)
         return render(request, 'mentor_select.html', {'form': form})
     else:
         return redirect('panel')
