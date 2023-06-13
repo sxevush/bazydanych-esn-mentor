@@ -135,8 +135,8 @@ def add_question_view(request):
 def mentor_selection_view(request):
     if request.user.is_authenticated and request.user.account_type == 'student':
         try:
-            mentor = MentoringChoice.objects.get(student=request.user, status='accepted')
-            return redirect(f'profile/{ mentor.id }')
+            mentor = MentoringChoice.objects.get(student=request.user, status='accepted').mentor
+            return redirect('profile', mentor.id)
         except MentoringChoice.DoesNotExist:
             pass
 
