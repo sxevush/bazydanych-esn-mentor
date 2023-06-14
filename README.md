@@ -30,7 +30,12 @@ Relacje między tabelami są następujące:
 * FormAnswer ma relację One-to-One z User.
 * Answer ma relację One-to-One z FormAnswer i Question.
 
-Szczegółowy schemat bazy danych można znaleźć w pliku [models.py](https://github.com/sxevush/bazydanych-esn-mentor/blob/main/mentor_app/models.py).
+Poniżej przedstawiamy schemat bazy, wygenerowany przez polecenie `python3 manage.py graph_models -a -g -o database_visualized.png`
+
+![image](https://github.com/sxevush/bazydanych-esn-mentor/assets/115425940/600c0d6c-daac-4659-a013-ac5ca9669345)
+
+
+Szczegóły dotyczące bazy danych można znaleźć w pliku [models.py](https://github.com/sxevush/bazydanych-esn-mentor/blob/main/mentor_app/models.py).
 
 
 # Modele
