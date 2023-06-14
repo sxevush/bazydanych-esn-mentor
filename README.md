@@ -10,7 +10,7 @@ Projekt polega na zaimplementowaniu systemu doboru mentorów dla studentów w ra
 System działa na następujących zasadach:
 
 1. Użytkownik rejestruje się w systemie, podając swoje dane oraz określając typ konta (student, mentor, admin). W przypadku mentorów, określana jest także liczba miejsc, które mają dostępne dla mentorowania.
-2. Użytkownik wypełnia formularz, na który składa się zestaw pytań z modelu Question. Odpowiedzi na te pytania są zapisywane w modelu FormAnswer, a konkretne odpowiedzi na pytania są zapisywane w modelu Answer.
+2. Użytkownik wypełnia formularz, na który składa się zestaw pytań z modelu [Question](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/models.py#L49). Odpowiedzi na te pytania są zapisywane w modelu FormAnswer, a konkretne odpowiedzi na pytania są zapisywane w modelu Answer.
 3. Na podstawie wypełnionych formularzy oraz dostępności mentorów, studenci wysyłają prośbę o udzielenie im mentoringu. Mentorzy wybierają, ile studentów chcą wziąć pod swoją opiekę i system blokuje możliwość "przygarnięcia" większej ilości studentów. Mentorzy dostają prośby wysyłane przez studentów i jet akceptują lub odrzucają. Wybór jest reprezentowany przez model [MentoringChoice](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/models.py#L64), który przechowuje informacje o mentorze, studencie i statusie wyboru (akceptowany, odrzucony, oczekujący).
 
 
