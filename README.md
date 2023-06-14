@@ -36,27 +36,27 @@ Szczegółowy schemat bazy danych można znaleźć w pliku [models.py](https://g
 Szczegółowe informacje o modelach można znaleźć w pliku [models.py](https://github.com/sxevush/bazydanych-esn-mentor/blob/main/mentor_app/models.py)
 
 
-## [User](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/models.py#L19)
-Model User to niestandardowy model użytkownika Django, który dodaje dodatkowe pole account_type, mentorships_left oraz modyfikuje pole email, ustawiając je jako unikalne oraz jako główne pole do logowania. Dodatkowo, model posiada pola first_name, last_name, username, is_active, is_staff, is_superuser które są standardowymi polami modelu użytkownika Django.
+## User
+Model [User](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/models.py#L19) to niestandardowy model użytkownika Django, który dodaje dodatkowe pole account_type, mentorships_left oraz modyfikuje pole email, ustawiając je jako unikalne oraz jako główne pole do logowania. Dodatkowo, model posiada pola first_name, last_name, username, is_active, is_staff, is_superuser które są standardowymi polami modelu użytkownika Django.
 
 * account_type to pole typu CharField i definiuje typ konta użytkownika. Możliwe opcje to: 'student', 'mentor', 'admin'.
 * mentorships_left to pole typu IntegerField określające ilość dostępnych miejsc dla danego mentora.
 * CustomUserManager to menedżer modelu User służący do tworzenia nowych instancji użytkowników oraz super użytkowników.
 
-## [FormAnswer](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/models.py#L44)
-Model FormAnswer reprezentuje odpowiedzi na pytania formularza. Składa się z dwóch pól: user (relacja OneToOne z modelem User) oraz created_at (czas utworzenia).
+## FormAnswer
+Model [FormAnswer](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/models.py#L44) reprezentuje odpowiedzi na pytania formularza. Składa się z dwóch pól: user (relacja OneToOne z modelem User) oraz created_at (czas utworzenia).
 
-## [Question](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/models.py#L49)
-Model Question reprezentuje pytania w formularzu. Składa się z dwóch pól: question (pytanie) oraz user_group (typ użytkownika, do którego jest skierowane pytanie - 'student' lub 'mentor').
+## Question
+Model [Question](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/models.py#L49) reprezentuje pytania w formularzu. Składa się z dwóch pól: question (pytanie) oraz user_group (typ użytkownika, do którego jest skierowane pytanie - 'student' lub 'mentor').
 
-## [Answer](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/models.py#L58)
-Model Answer reprezentuje odpowiedzi na pytania w formularzu. Składa się z trzech pól: question (pytanie), answer (odpowiedź) oraz form (klucz obcy do FormAnswer).
+## Answer
+Model [Answer](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/models.py#L58) reprezentuje odpowiedzi na pytania w formularzu. Składa się z trzech pól: question (pytanie), answer (odpowiedź) oraz form (klucz obcy do FormAnswer).
 
-## [MentoringChoice](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/models.py#L64)
-Model MentoringChoice reprezentuje wybór mentora przez studenta. Składa się z trzech pól: mentor (klucz obcy do User, reprezentuje mentor), student (klucz obcy do User, reprezentuje studenta), status (status wyboru mentora - 'accepted', 'rejected', 'pending').
+## MentoringChoice
+Model [MentoringChoice](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/models.py#L64) reprezentuje wybór mentora przez studenta. Składa się z trzech pól: mentor (klucz obcy do User, reprezentuje mentor), student (klucz obcy do User, reprezentuje studenta), status (status wyboru mentora - 'accepted', 'rejected', 'pending').
 
 
-# [Formularze]
+# Formularze
 
 Szczegółowe informacje o formularzach można znaleźć w pliku [forms.py](https://github.com/sxevush/bazydanych-esn-mentor/blob/main/mentor_app/forms.py)
 
