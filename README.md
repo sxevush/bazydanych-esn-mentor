@@ -32,6 +32,7 @@ Relacje między tabelami są następujące:
 
 Poniżej przedstawiamy schemat bazy, wygenerowany przez polecenie `python3 manage.py graph_models -a -g -o database_visualized.png`
 
+
 ![image](https://github.com/sxevush/bazydanych-esn-mentor/assets/115425940/600c0d6c-daac-4659-a013-ac5ca9669345)
 
 
