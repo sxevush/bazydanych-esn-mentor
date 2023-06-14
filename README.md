@@ -22,7 +22,7 @@ cd mentor-matching-esn`
 ### 3. Uruchom serwer:
 `python manage.py runserver`
 
-Teraz możesz otworzyć projekt w przeglądarce pod adresem http://[http://127.0.0.1:8000](http://127.0.0.1:8000).
+Teraz możesz otworzyć projekt w przeglądarce pod adresem [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
 
 
