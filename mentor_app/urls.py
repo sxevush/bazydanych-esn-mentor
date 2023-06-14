@@ -11,7 +11,6 @@ urlpatterns = [
     path('form/', views.form_view, name='form'),
     path('success/', views.success, name='success'),
     path('already_filled/', views.already_filled, name='already_filled'),
-    path('export_data/', views.export_data, name='export_data'),
     path('mentor_select/', views.mentor_selection_view, name='mentor_select'),
     path('mentorships_left/', views.edit_mentorships, name='mentorships_left'),
     path('profile/<int:id>/', views.profile_view, name='profile'),
