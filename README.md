@@ -1,6 +1,8 @@
 # ESN Mentor
 
-Projekt polega na zaimplementowaniu systemu doboru mentorów dla studentów w ramach programu ESN. Bazuje on na frameworku Django oraz bazie danych PostgreSQL.
+Projekt polega na zaimplementowaniu systemu doboru mentorów dla studentów w ramach Programu Mentor organizowanego przez ESN AGH (Erasmus Student Network AGH). Bazuje on na frameworku Django oraz bazie danych PostgreSQL.
+
+![image](https://github.com/sxevush/bazydanych-esn-mentor/assets/115425940/0906508f-cee2-4f56-adc4-89d97a87884f)
 
 
 # Działanie aplikacji
