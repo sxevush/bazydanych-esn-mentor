@@ -79,16 +79,16 @@ Szczegółowe informacje o formularzach można znaleźć w pliku [forms.py](http
 
 Szczegółowe informacje o widokach można znaleźć w pliku [views.py](https://github.com/sxevush/bazydanych-esn-mentor/blob/main/mentor_app/views.py)
 
-* RegistrationView - Umożliwia użytkownikowi zarejestrowanie się w systemie. Odwołuje się do funkcji register() w views.py i URL /register/.
-* LoginView - Służy do logowania użytkowników. Odwołuje się do funkcji log_in() w views.py i URL /login/.
-* LogoutView - Pozwala użytkownikowi na wylogowanie się z systemu. Odwołuje się do funkcji log_out() w views.py i URL /logout/.
-* PanelView - Wyświetla panel użytkownika. Odwołuje się do funkcji panel() w views.py i URL /panel/.
-* EditProfileView - Umożliwia edycję profilu użytkownika. Odwołuje się do funkcji edit_profile() w views.py i URL /edit_profile/.
-* UserProfileView - Wyświetla profil konkretnego użytkownika. Odwołuje się do funkcji profile_view() w views.py i URL /profile/<int:id>/.
-* FormAnswerCreationView - Umożliwia użytkownikowi uzupełnienie formularza i zapisanie odpowiedzi. Odwołuje się do funkcji form_view() w views.py i URL /form/.
-* MentorSelectionView - Pozwala studentom na wybór mentora. Odwołuje się do funkcji mentor_selection_view() w views.py i URL /mentor_select/.
-* MentorChoicesView - Umożliwia mentorowi przeglądanie wyborów mentora dokonanych przez studentów oraz ich akceptację lub odrzucenie. Odwołuje się do funkcji accept_students_view() w views.py i URL /accept_students/.
-* AddQuestionView - Umożliwia dodanie nowego pytania do formularza. Odwołuje się do funkcji add_question_view() w views.py i URL /add_question/.
-* MentorshipEditView - Umożliwia mentorowi edycję dostępnych miejsc do mentorowania. Odwołuje się do funkcji edit_mentorships() w views.py i URL /mentorships_left/.
-* SuccessView - Wyświetla strony z potwierdzeniem po poprawnej akcji użytkownika. Odwołuje się do funkcji success() w views.py i URL /success/.
-* AlreadyFilledView - Wyświetla informację, że formularz został już wypełniony. Odwołuje się do funkcji already_filled() w views.py i URL /already_filled/.
+* RegistrationView - Umożliwia użytkownikowi zarejestrowanie się w systemie. Odwołuje się do funkcji [register()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L16) w views.py i URL /register/.
+* LoginView - Służy do logowania użytkowników. Odwołuje się do funkcji [log_in()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L28) w views.py i URL /login/.
+* LogoutView - Pozwala użytkownikowi na wylogowanie się z systemu. Odwołuje się do funkcji [log_out()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L40) w views.py i URL /logout/.
+* PanelView - Wyświetla panel użytkownika. Odwołuje się do funkcji [panel()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L45) w views.py i URL /panel/.
+* EditProfileView - Umożliwia edycję profilu użytkownika. Odwołuje się do funkcji [edit_profile()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L52) w views.py i URL /edit_profile/.
+* UserProfileView - Wyświetla profil konkretnego użytkownika. Odwołuje się do funkcji [profile_view()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L67) w views.py i URL /profile/<int:id>/.
+* FormAnswerCreationView - Umożliwia użytkownikowi uzupełnienie formularza i zapisanie odpowiedzi. Odwołuje się do funkcji [form_view()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L77) w views.py i URL /form/.
+* AddQuestionView - Umożliwia dodanie nowego pytania do formularza. Odwołuje się do funkcji [add_question_view()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L94) w views.py i URL /add_question/.
+* MentorSelectionView - Pozwala studentom na wybór mentora. Odwołuje się do funkcji [mentor_selection_view()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L106) w views.py i URL /mentor_select/.
+* MentorChoicesView - Umożliwia mentorowi przeglądanie wyborów mentora dokonanych przez studentów oraz ich akceptację lub odrzucenie. Odwołuje się do funkcji [accept_students_view()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L126) w views.py i URL /accept_students/.
+* MentorshipEditView - Umożliwia mentorowi edycję dostępnych miejsc do mentorowania. Odwołuje się do funkcji [edit_mentorships()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L140) w views.py i URL /mentorships_left/.
+* SuccessView - Wyświetla strony z potwierdzeniem po poprawnej akcji użytkownika. Odwołuje się do funkcji [success()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L157) w views.py i URL /success/.
+* AlreadyFilledView - Wyświetla informację, że formularz został już wypełniony. Odwołuje się do funkcji [already_filled()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L161) w views.py i URL /already_filled/.
