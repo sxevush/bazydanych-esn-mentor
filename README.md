@@ -5,6 +5,27 @@ Projekt polega na zaimplementowaniu systemu doboru mentorów dla studentów w ra
 ![image](https://github.com/sxevush/bazydanych-esn-mentor/assets/115425940/79a982da-27ac-49fa-b84e-f397e2a49e5c)
 
 
+# Instalacja
+
+## Wymagania:
+* Python 3.8 lub nowszy
+* PostgreSQL
+
+## Kroki:
+### 1. Sklonuj to repozytorium:
+`git clone https://github.com/your-repo/mentor-matching-esn.git
+cd mentor-matching-esn`
+
+### 2. Wykonaj migracje:
+`python manage.py migrate`
+
+### 3. Uruchom serwer:
+`python manage.py runserver`
+
+Teraz możesz otworzyć projekt w przeglądarce pod adresem http://[http://127.0.0.1:8000](http://127.0.0.1:8000).
+
+
+
 # Działanie aplikacji
 
 System działa na następujących zasadach:
@@ -30,7 +51,7 @@ Relacje między tabelami są następujące:
 * FormAnswer ma relację One-to-One z User.
 * Answer ma relację One-to-One z FormAnswer i Question.
 
-Poniżej przedstawiamy schemat bazy, wygenerowany przez polecenie `python3 manage.py graph_models -a -g -o database_visualized.png`
+Poniżej przedstawiamy schemat bazy, wygenerowany przez polecenie `python3 manage.py graph_models -a -g -o database_visualized.png`.
 
 
 ![image](https://github.com/sxevush/bazydanych-esn-mentor/assets/115425940/600c0d6c-daac-4659-a013-ac5ca9669345)
@@ -41,7 +62,7 @@ Szczegóły dotyczące bazy danych można znaleźć w pliku [models.py](https://
 
 # Modele
 
-Szczegółowe informacje o modelach można znaleźć w pliku [models.py](https://github.com/sxevush/bazydanych-esn-mentor/blob/main/mentor_app/models.py)
+Szczegółowe informacje o modelach można znaleźć w pliku [models.py](https://github.com/sxevush/bazydanych-esn-mentor/blob/main/mentor_app/models.py).
 
 
 ## User
@@ -66,7 +87,7 @@ Model [MentoringChoice](https://github.com/sxevush/bazydanych-esn-mentor/blob/da
 
 # Formularze
 
-Szczegółowe informacje o formularzach można znaleźć w pliku [forms.py](https://github.com/sxevush/bazydanych-esn-mentor/blob/main/mentor_app/forms.py)
+Szczegółowe informacje o formularzach można znaleźć w pliku [forms.py](https://github.com/sxevush/bazydanych-esn-mentor/blob/main/mentor_app/forms.py).
 
 * [RegistrationForm](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/forms.py#L9), [LoginForm](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/forms.py#L15) oraz [ProfileForm](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/forms.py#L21) to formularze do rejestracji, logowania i edycji profilu użytkownika.
 
@@ -77,7 +98,7 @@ Szczegółowe informacje o formularzach można znaleźć w pliku [forms.py](http
 
 # Widoki
 
-Szczegółowe informacje o widokach można znaleźć w pliku [views.py](https://github.com/sxevush/bazydanych-esn-mentor/blob/main/mentor_app/views.py)
+Szczegółowe informacje o widokach można znaleźć w pliku [views.py](https://github.com/sxevush/bazydanych-esn-mentor/blob/main/mentor_app/views.py).
 
 * RegistrationView - Umożliwia użytkownikowi zarejestrowanie się w systemie. Odwołuje się do funkcji [register()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L16) w views.py i URL /register/.
 * LoginView - Służy do logowania użytkowników. Odwołuje się do funkcji [log_in()](https://github.com/sxevush/bazydanych-esn-mentor/blob/2e4ffa2ffc83081f2c97738e9f7ba897516b475c/mentor_app/views.py#L28) w views.py i URL /login/.
