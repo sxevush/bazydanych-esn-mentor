@@ -59,14 +59,11 @@ Model MentoringChoice reprezentuje wybór mentora przez studenta. Składa się z
 
 # [Formularze](https://github.com/sxevush/bazydanych-esn-mentor/blob/main/mentor_app/forms.py)
 
-* [RegistrationForm](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/forms.py#L9), [LoginForm](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/forms.py#L15), [ProfileForm](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/forms.py#L21)
-RegistrationForm, LoginForm oraz ProfileForm to formularze do rejestracji, logowania i edycji profilu użytkownika.
+* [RegistrationForm](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/forms.py#L9), [LoginForm](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/forms.py#L15) oraz [ProfileForm](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/forms.py#L21) to formularze do rejestracji, logowania i edycji profilu użytkownika.
 
-* [FormAnswersForm](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/forms.py#L27)
-FormAnswersForm jest formularzem do zbierania odpowiedzi użytkowników. W konstruktorze formularza, zapytania są pobierane na podstawie grupy użytkowników. Na podstawie tych pytań, tworzone są odpowiednie pola formularza. Metoda save tworzy nową instancję FormAnswer oraz Answer dla każdej odpowiedzi.
+* [FormAnswersForm](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/forms.py#L27) jest formularzem do zbierania odpowiedzi użytkowników. W konstruktorze formularza, zapytania są pobierane na podstawie grupy użytkowników. Na podstawie tych pytań, tworzone są odpowiednie pola formularza. Metoda save tworzy nową instancję FormAnswer oraz Answer dla każdej odpowiedzi.
 
-* [MentorSelectionForm](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/forms.py#L53)
-MentorSelectionForm jest formularzem do wyboru mentora przez studenta. W konstruktorze formularza, użytkownicy są pobierani z wykluczeniem tych, którzy nie mają dostępnych miejsc na mentorowania (`mentorships_left=0`). Metoda save tworzy nową instancję MentoringChoice.
+* [MentorSelectionForm](https://github.com/sxevush/bazydanych-esn-mentor/blob/dae0734dc2cda1d9687e03f657d5044825d022aa/mentor_app/forms.py#L53) jest formularzem do wyboru mentora przez studenta. W konstruktorze formularza, użytkownicy są pobierani z wykluczeniem tych, którzy nie mają dostępnych miejsc na mentorowania (`mentorships_left=0`). Metoda save tworzy nową instancję MentoringChoice.
 
 
 # [Widoki](https://github.com/sxevush/bazydanych-esn-mentor/blob/main/mentor_app/views.py)
