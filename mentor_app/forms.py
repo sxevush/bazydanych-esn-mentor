@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.db import transaction
 from django.utils.safestring import mark_safe
 
 from .models import User, FormAnswer, Question, Answer, MentoringChoice
@@ -35,16 +36,17 @@ class FormAnswersForm(forms.Form):
             self.fields[question] = forms.IntegerField(widget=forms.Select(choices=[(i, i) for i in range(1, 11)]))
 
     def save(self, user):
-        result = FormAnswer()
-        result.user = user
-        result.save()
+        with transaction.atomic():
+            result = FormAnswer()
+            result.user = user
+            result.save()
 
-        for (key, value) in self.cleaned_data.items():
-            answer = Answer()
-            answer.question = key
-            answer.answer = value
-            answer.form = result
-            answer.save()
+            for (key, value) in self.cleaned_data.items():
+                answer = Answer()
+                answer.question = key
+                answer.answer = value
+                answer.form = result
+                answer.save()
 
 
 
@@ -105,23 +107,24 @@ class AcceptStudentsForm(forms.Form):
             )
 
     def save(self, user):
-        for (student_username, response) in self.cleaned_data.items():
-            student = User.objects.get(username=student_username)
-            mentoring_choice = MentoringChoice.objects.get(student=student, mentor=user)
+        with transaction.atomic():
+            for (student_username, response) in self.cleaned_data.items():
+                student = User.objects.get(username=student_username)
+                mentoring_choice = MentoringChoice.objects.get(student=student, mentor=user)
 
-            if user.mentorships_left > 0:
-                mentoring_choice.status = response
+                if user.mentorships_left > 0:
+                    mentoring_choice.status = response
 
-                if response == 'accepted':
-                    user.mentorships_left -= 1
-                    other_mentoring_choices = MentoringChoice.objects.\
-                        filter(student=student).exclude(mentor=user)
+                    if response == 'accepted':
+                        user.mentorships_left -= 1
+                        other_mentoring_choices = MentoringChoice.objects.\
+                            filter(student=student).exclude(mentor=user)
 
-                    for other_choice in other_mentoring_choices:
-                        other_choice.status = 'rejected'
-                        other_choice.save()
+                        for other_choice in other_mentoring_choices:
+                            other_choice.status = 'rejected'
+                            other_choice.save()
 
-            else:
-                mentoring_choice.status = 'rejected'
-            mentoring_choice.save()
-        user.save()
+                else:
+                    mentoring_choice.status = 'rejected'
+                mentoring_choice.save()
+            user.save()

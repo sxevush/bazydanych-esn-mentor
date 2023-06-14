@@ -1,7 +1,4 @@
-import numpy as np
 from django.contrib.auth import login, logout
-from django.db import connection
-from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_protect
@@ -67,32 +64,6 @@ def edit_profile(request):
     return render(request, 'edit_profile.html', {'form': form})
 
 
-def export_data():
-    # wykonaj zapytanie SQL, aby pobrać wyniki z bazy danych
-    with connection.cursor() as cursor:
-        cursor.execute(
-            "SELECT user_id, question1, question2, question3 FROM FormResult")
-        results = cursor.fetchall()
-
-    print(results)
-
-    # utwórz tablicę numpy z pobranych wyników
-    result_array = np.array(results)
-
-    # konwertuj tablicę numpy na format CSV
-    csv_data = np.array2string(result_array, separator=',', prefix='', suffix='')
-
-    # ustaw nagłówek HTTP, aby przeglądarka pobierała plik CSV
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="wyniki.csv"'
-
-    # zapisz dane CSV w odpowiedzi HTTP
-    response.write(csv_data)
-
-    # zwróć odpowiedź HTTP
-    return response
-
-
 def profile_view(request, id):
     user = User.objects.get(pk=id)
     try:
@@ -105,7 +76,7 @@ def profile_view(request, id):
 
 def form_view(request):
     try:
-        form_result = FormAnswer.objects.get(user=request.user)
+        form = FormAnswer.objects.get(user=request.user)
         return redirect('already_filled')
     except FormAnswer.DoesNotExist:
         pass
