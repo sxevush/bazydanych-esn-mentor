@@ -49,7 +49,7 @@ Relacje między tabelami są następujące:
 
 * User posiada relację One-to-Many z MentoringChoice jako student i mentor.
 * FormAnswer ma relację One-to-One z User.
-* Answer ma relację One-to-One z FormAnswer i Question.
+* Answer ma relację One-to-Many z FormAnswer.
 
 Poniżej przedstawiamy schemat bazy, wygenerowany przez polecenie `python3 manage.py graph_models -a -g -o database_visualized.png`.
 
