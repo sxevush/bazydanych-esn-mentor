@@ -13,8 +13,8 @@ Projekt polega na zaimplementowaniu systemu doboru mentorów dla studentów w ra
 
 ## Kroki:
 ### 1. Sklonuj to repozytorium:
-`git clone https://github.com/your-repo/mentor-matching-esn.git
-cd mentor-matching-esn`
+`git clone https://github.com/sxevush/bazydanych-esn-mentor.git
+cd bazydanych-esn-mentor`
 
 ### 2. Wykonaj migracje:
 `python manage.py migrate`
